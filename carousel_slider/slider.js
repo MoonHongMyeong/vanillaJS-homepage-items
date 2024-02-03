@@ -23,7 +23,7 @@ export class Slider {
         this._items.forEach((item, index) => {
             const sliderItem = document.createElement(`div`);
             sliderItem.className = `custom-slider-item${item.id}`;
-            sliderItem.style.width = width;
+            sliderItem.style.width = '100%';
             sliderItem.style.height = height;
             sliderItem.style.zIndex = zIndex + 10;
             sliderItem.style.position = 'absolute';
@@ -95,6 +95,10 @@ export class Slider {
             }
             const nextSlide = document.querySelector(`.custom-slider-item${this.itemIndex+1}`);
             nextSlide.style.opacity = 1;
+        })
+
+        window.addEventListener(`resize`, function(){
+            sliderContainer.style.width = `${window.innerWidth}px`;
         })
 
         root.style.display = `flex`;
