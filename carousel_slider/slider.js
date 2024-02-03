@@ -9,6 +9,69 @@ export class Slider {
     }
     itemIndex = 0;
     
+    createLeftButton = (root) => {
+        const leftBtn = document.createElement(`button`);
+        leftBtn.id = `slider-left-btn`;
+        leftBtn.style.position = `absolute`;
+        leftBtn.style.border = `none`;
+        leftBtn.style.backgroundColor = `white`;
+        leftBtn.style.zIndex = root.style.zIndex ? root.style.zIndex + 20 : 20;
+
+        leftBtn.style.left = `${0 + (window.innerWidth/12)}px`;
+        leftBtn.style.borderRadius = '1rem';
+        leftBtn.style.width = '1rem';
+        leftBtn.style.height = '1rem';
+        leftBtn.style.top = (root.getBoundingClientRect().top + ((window.innerHeight/5)/2 - 8)).toString() + 'px';
+        leftBtn.style.display = 'flex';
+        leftBtn.style.justifyContent = 'center';
+        leftBtn.style.alignItems = 'center';
+        leftBtn.innerText = '<';
+
+        leftBtn.addEventListener('click', e => {
+            const currentSlide = document.querySelector(`.custom-slider-item${this.itemIndex+1}`);
+            currentSlide.style.opacity = 0;
+            this.itemIndex--;
+            if(this.itemIndex < 0){
+                this.itemIndex = this._items.length - 1;
+            }
+            const nextSlide = document.querySelector(`.custom-slider-item${this.itemIndex+1}`);
+            nextSlide.style.opacity = 1;
+        })
+
+        return leftBtn;
+    }
+
+    createRightButton(root){
+        const rightBtn = document.createElement(`button`);
+        rightBtn.id = `slider-right-btn`;
+        rightBtn.style.position = `absolute`;
+        rightBtn.style.border = `none`;
+        rightBtn.style.backgroundColor = `white`;
+        rightBtn.style.zIndex = root.style.zIndex ? root.style.zIndex + 20 : 20;
+
+        rightBtn.style.right = `${0 + (window.innerWidth/12)}px`;
+        rightBtn.style.borderRadius = '1rem';
+        rightBtn.style.width = '1rem';
+        rightBtn.style.height = '1rem';
+        rightBtn.style.top = (root.getBoundingClientRect().top + ((window.innerHeight/5)/2) - 8).toString() + 'px';
+        rightBtn.style.display = 'flex';
+        rightBtn.style.justifyContent = 'center';
+        rightBtn.style.alignItems = 'center';
+        rightBtn.innerText = '>';
+
+        rightBtn.addEventListener('click', e => {
+            const currentSlide = document.querySelector(`.custom-slider-item${this.itemIndex+1}`);
+            currentSlide.style.opacity = 0;
+            this.itemIndex++;
+            if(this.itemIndex > this._items.length - 1){
+                this.itemIndex = 0;
+            }
+            const nextSlide = document.querySelector(`.custom-slider-item${this.itemIndex+1}`);
+            nextSlide.style.opacity = 1;
+        })
+
+        return rightBtn;
+    }
 
     init(){
         const root = document.querySelector(this._HTMLtagName);
@@ -43,59 +106,8 @@ export class Slider {
             sliderContainer.appendChild(sliderItem);
         })
 
-        const leftBtn = document.createElement(`button`);
-        leftBtn.id = `slider-left-btn`;
-        leftBtn.style.position = `absolute`;
-        leftBtn.style.border = `none`;
-        leftBtn.style.backgroundColor = `white`;
-        leftBtn.style.zIndex = zIndex + 20;
-        leftBtn.style.left = `${0 + (window.innerWidth/12)}px`;
-        leftBtn.style.borderRadius = '1rem';
-        leftBtn.style.width = '1rem';
-        leftBtn.style.height = '1rem';
-        leftBtn.style.top = (root.getBoundingClientRect().top + ((window.innerHeight/5)/2 - 8)).toString() + 'px';
-        leftBtn.innerText = '<';
-        leftBtn.style.display = 'flex';
-        leftBtn.style.justifyContent = 'center';
-        leftBtn.style.alignItems = 'center';
-
-        leftBtn.addEventListener('click', e => {
-            const currentSlide = document.querySelector(`.custom-slider-item${this.itemIndex+1}`);
-            currentSlide.style.opacity = 0;
-            this.itemIndex--;
-            if(this.itemIndex < 0){
-                this.itemIndex = this._items.length - 1;
-            }
-            const nextSlide = document.querySelector(`.custom-slider-item${this.itemIndex+1}`);
-            nextSlide.style.opacity = 1;
-        })
-
-        const rightBtn = document.createElement(`button`);
-        rightBtn.id = `slider-right-btn`;
-        rightBtn.style.position = `absolute`;
-        rightBtn.style.border = `none`;
-        rightBtn.style.backgroundColor = `white`;
-        rightBtn.style.zIndex = zIndex + 20;
-        rightBtn.style.right = `${0 + (window.innerWidth/12)}px`;
-        rightBtn.style.borderRadius = '1rem';
-        rightBtn.style.width = '1rem';
-        rightBtn.style.height = '1rem';
-        rightBtn.style.top = (root.getBoundingClientRect().top + ((window.innerHeight/5)/2) - 8).toString() + 'px';
-        rightBtn.innerText = '>';
-        rightBtn.style.display = 'flex';
-        rightBtn.style.justifyContent = 'center';
-        rightBtn.style.alignItems = 'center';
-
-        rightBtn.addEventListener('click', e => {
-            const currentSlide = document.querySelector(`.custom-slider-item${this.itemIndex+1}`);
-            currentSlide.style.opacity = 0;
-            this.itemIndex++;
-            if(this.itemIndex > this._items.length - 1){
-                this.itemIndex = 0;
-            }
-            const nextSlide = document.querySelector(`.custom-slider-item${this.itemIndex+1}`);
-            nextSlide.style.opacity = 1;
-        })
+        const leftBtn = this.createLeftButton(root);
+        const rightBtn = this.createRightButton(root);
 
         window.addEventListener(`resize`, function(){
             sliderContainer.style.width = `${window.innerWidth}px`;
