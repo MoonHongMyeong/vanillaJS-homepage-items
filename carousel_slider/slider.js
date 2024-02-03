@@ -46,7 +46,7 @@ export class Slider {
         rightBtn.style.backgroundColor = `inherit`;
         rightBtn.style.zIndex = root.style.zIndex ? root.style.zIndex + 20 : 20;
         rightBtn.style.height = '100%';
-        rightBtn.style.left = `${root.getBoundingClientRect().width - (root.getBoundingClientRect().width/10) - 32}px`;
+        rightBtn.style.left = `${root.getBoundingClientRect().width - (root.getBoundingClientRect().width* 2/10)}px`;
 
         rightBtn.style.display = 'flex';
         rightBtn.style.justifyContent = 'center';
@@ -111,6 +111,8 @@ export class Slider {
 
         window.addEventListener(`resize`, function(){
             sliderContainer.style.width = `${window.innerWidth}px`;
+            leftBtn.style.left = `${root.getBoundingClientRect().width/10}px`;
+            rightBtn.style.left = `${sliderContainer.getBoundingClientRect().width - (sliderContainer.getBoundingClientRect().width*2/10)}px`;
         })
 
         
