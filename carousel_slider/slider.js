@@ -7,7 +7,7 @@ export class Slider {
         this._HTMLtagName = HTMLtagName;
         this._items = items;
     }
-    currentItemNo = 0;
+    itemIndex = 0;
     
 
     init(){
@@ -28,7 +28,7 @@ export class Slider {
             sliderItem.style.height = height;
             sliderItem.style.position = 'absolute';
             sliderItem.style.backgroundColor = `#${Math.round(Math.random() * 0xffffff).toString(16)}`
-            if(index !== this.currentItemNo){
+            if(index !== this.itemIndex){
                 sliderItem.style.visibility = 'hidden';
             }
 
@@ -45,26 +45,26 @@ export class Slider {
         leftBtn.id = `slider-left-btn`;
 
         leftBtn.addEventListener('click', e => {
-            const currentSlide = document.querySelector(`.custom-slider-item${this.currentItemNo+1}`);
+            const currentSlide = document.querySelector(`.custom-slider-item${this.itemIndex+1}`);
             currentSlide.style.visibility = `hidden`;
-            this.currentItemNo--;
-            if(this.currentItemNo < 0){
-                this.currentItemNo = this._items.length - 1;
+            this.itemIndex--;
+            if(this.itemIndex < 0){
+                this.itemIndex = this._items.length - 1;
             }
-            const nextSlide = document.querySelector(`.custom-slider-item${this.currentItemNo+1}`);
+            const nextSlide = document.querySelector(`.custom-slider-item${this.itemIndex+1}`);
             nextSlide.style.visibility = `visible`;
         })
 
         const rightBtn = document.createElement(`button`);
         rightBtn.id = `slider-right-btn`;
         rightBtn.addEventListener('click', e => {
-            const currentSlide = document.querySelector(`.custom-slider-item${this.currentItemNo+1}`);
+            const currentSlide = document.querySelector(`.custom-slider-item${this.itemIndex+1}`);
             currentSlide.style.visibility = `hidden`;
-            this.currentItemNo++;
-            if(this.currentItemNo > this._items.length - 1){
-                this.currentItemNo = 0;
+            this.itemIndex++;
+            if(this.itemIndex > this._items.length - 1){
+                this.itemIndex = 0;
             }
-            const nextSlide = document.querySelector(`.custom-slider-item${this.currentItemNo+1}`);
+            const nextSlide = document.querySelector(`.custom-slider-item${this.itemIndex+1}`);
             nextSlide.style.visibility = `visible`;
         })
 
