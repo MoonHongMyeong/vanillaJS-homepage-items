@@ -12,16 +12,13 @@ export class Slider {
     createLeftButton = (root) => {
         const leftBtn = document.createElement(`button`);
         leftBtn.id = `slider-left-btn`;
-        leftBtn.style.position = `absolute`;
+        leftBtn.style.position = `relative`;
         leftBtn.style.border = `none`;
-        leftBtn.style.backgroundColor = `white`;
+        leftBtn.style.backgroundColor = `inherit`;
         leftBtn.style.zIndex = root.style.zIndex ? root.style.zIndex + 20 : 20;
+        leftBtn.style.height = '100%';
+        leftBtn.style.left = `${root.getBoundingClientRect().width/10}px`;
 
-        leftBtn.style.left = `${0 + (window.innerWidth/12)}px`;
-        leftBtn.style.borderRadius = '1rem';
-        leftBtn.style.width = '1rem';
-        leftBtn.style.height = '1rem';
-        leftBtn.style.top = (root.getBoundingClientRect().top + ((window.innerHeight/5)/2 - 8)).toString() + 'px';
         leftBtn.style.display = 'flex';
         leftBtn.style.justifyContent = 'center';
         leftBtn.style.alignItems = 'center';
@@ -44,16 +41,13 @@ export class Slider {
     createRightButton(root){
         const rightBtn = document.createElement(`button`);
         rightBtn.id = `slider-right-btn`;
-        rightBtn.style.position = `absolute`;
+        rightBtn.style.position = `relative`;
         rightBtn.style.border = `none`;
-        rightBtn.style.backgroundColor = `white`;
+        rightBtn.style.backgroundColor = `inherit`;
         rightBtn.style.zIndex = root.style.zIndex ? root.style.zIndex + 20 : 20;
+        rightBtn.style.height = '100%';
+        rightBtn.style.left = `${root.getBoundingClientRect().width - (root.getBoundingClientRect().width/10) - 32}px`;
 
-        rightBtn.style.right = `${0 + (window.innerWidth/12)}px`;
-        rightBtn.style.borderRadius = '1rem';
-        rightBtn.style.width = '1rem';
-        rightBtn.style.height = '1rem';
-        rightBtn.style.top = (root.getBoundingClientRect().top + ((window.innerHeight/5)/2) - 8).toString() + 'px';
         rightBtn.style.display = 'flex';
         rightBtn.style.justifyContent = 'center';
         rightBtn.style.alignItems = 'center';
@@ -78,20 +72,22 @@ export class Slider {
         const width = root.getAttribute(`width`) || window.innerWidth.toString()+'px';
         const height = root.getAttribute(`height`) || (window.innerHeight/5).toString()+'px';
         const zIndex = root.style.zIndex ? root.style.zIndex : 0;
+        root.style.display = 'flex';
+        root.style.justifyContent = 'center';
         const sliderContainer = document.createElement(`div`);
         sliderContainer.className = 'custom-slider-container';
         sliderContainer.style.width = width;
         sliderContainer.style.height = height;
+        sliderContainer.style.display = 'flex';
 
         this._items.forEach((item, index) => {
             const sliderItem = document.createElement(`div`);
             sliderItem.className = `custom-slider-item${item.id}`;
-            sliderItem.style.width = '100%';
             sliderItem.style.height = height;
             sliderItem.style.zIndex = zIndex + 10;
             sliderItem.style.position = 'absolute';
-            sliderItem.style.transition = 'opacity 0.5s'
-            
+            sliderItem.style.transition = 'opacity 0.5s';
+
             if(index !== this.itemIndex){
                 sliderItem.style.opacity = 0;
             }else{
@@ -104,19 +100,19 @@ export class Slider {
 
             sliderItem.appendChild(sliderImage);
             sliderContainer.appendChild(sliderItem);
-        })
+        })  
+        root.appendChild(sliderContainer);
 
-        const leftBtn = this.createLeftButton(root);
-        const rightBtn = this.createRightButton(root);
+        const leftBtn = this.createLeftButton(sliderContainer);
+        const rightBtn = this.createRightButton(sliderContainer);
+        
+        sliderContainer.appendChild(leftBtn);
+        sliderContainer.appendChild(rightBtn);
 
         window.addEventListener(`resize`, function(){
             sliderContainer.style.width = `${window.innerWidth}px`;
         })
 
-        root.style.display = `flex`;
-        root.style.justifyContent = `center`;
-        root.appendChild(leftBtn);
-        root.appendChild(sliderContainer);
-        root.appendChild(rightBtn);
+        
     }
 }
