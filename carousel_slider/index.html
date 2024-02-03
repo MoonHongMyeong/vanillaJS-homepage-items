@@ -9,20 +9,19 @@
     <script type="module">
         import {Slider} from './slider.js'
 
-        const root = document.querySelector('#slider');
         const testdata = [
             {id: 1, title: 'test1', img: `image path1.png`, url: 'linked url1'},
             {id: 2, title: 'test2', img: `image path2.png`, url: 'linked url2'},
             {id: 3, title: 'test3', img: `image path3.png`, url: 'linked url3'},
             {id: 4, title: 'test4', img: `image path4.png`, url: 'linked url4'}
         ]
-        const slider = new Slider(root, testdata);
+        const slider = new Slider('custom-slider', testdata);
         slider.init();
     </script>
 </head>
 <body>
     <div style="width:100%; height: 400px; background-color: #de4455;"></div>
-    <div id="slider" width="500px" height="200px">
-    </div>
+    <custom-slider width="500px" height="200px">
+    </custom-slider>
 </body>
 </html>

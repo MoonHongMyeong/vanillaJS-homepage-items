@@ -1,18 +1,19 @@
 export class Slider {
     /**
-     * @param {HTMLDivElement} root 
+     * @param {string} HTMLtagName
      * @param {Array<JSON>} items 
      */
-    constructor(root, items){
-        this._root = root;
+    constructor(HTMLtagName, items){
+        this._HTMLtagName = HTMLtagName;
         this._items = items;
     }
     currentItemNo = 0;
     
 
     init(){
-        const width = this._root.getAttribute(`width`);
-        const height = this._root.getAttribute(`height`);
+        const root = document.querySelector(this._HTMLtagName);
+        const width = root.getAttribute(`width`);
+        const height = root.getAttribute(`height`);
 
         // 슬라이드 컨테이너 생성
         const sliderContainer = document.createElement(`div`);
@@ -32,7 +33,7 @@ export class Slider {
             }
 
             const sliderImage = document.createElement(`img`);
-            // sliderImage.src = `${item.img}`;
+            sliderImage.src = `${item.img}`;
             sliderImage.alt = `${item.title}`;
 
             sliderItem.appendChild(sliderImage);
@@ -68,10 +69,10 @@ export class Slider {
         })
 
         // 받아온 root 태그에 append
-        this._root.style.display = `flex`;
-        this._root.style.justifyContent = `center`;
-        this._root.appendChild(leftBtn);
-        this._root.appendChild(sliderContainer);
-        this._root.appendChild(rightBtn);
+        root.style.display = `flex`;
+        root.style.justifyContent = `center`;
+        root.appendChild(leftBtn);
+        root.appendChild(sliderContainer);
+        root.appendChild(rightBtn);
     }
 }
