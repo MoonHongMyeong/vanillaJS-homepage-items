@@ -27,7 +27,7 @@ export class Slider {
             sliderItem.style.height = height;
             sliderItem.style.zIndex = zIndex + 10;
             sliderItem.style.position = 'absolute';
-            sliderItem.style.backgroundColor = `#${Math.round(Math.random() * 0xffffff).toString(16)}`;
+            sliderItem.style.transition = 'opacity 0.5s'
             
             if(index !== this.itemIndex){
                 sliderItem.style.opacity = 0;
