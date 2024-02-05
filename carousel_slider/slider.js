@@ -3,13 +3,14 @@ export class Slider {
      * @param {string} HTMLtagName
      * @param {Array<JSON>} items 
      */
-    constructor(HTMLtagName, items){
+    constructor(HTMLtagName, items, config){
         this._HTMLtagName = HTMLtagName;
         this._items = items;
+        this._config = config
     }
     itemIndex = 0;
     
-    createLeftButton = (root) => {
+    createLeftButton = (root, event) => {
         const leftBtn = document.createElement(`button`);
         leftBtn.id = `slider-left-btn`;
         leftBtn.style.position = `relative`;
@@ -24,21 +25,23 @@ export class Slider {
         leftBtn.style.alignItems = 'center';
         leftBtn.innerText = '<';
 
-        leftBtn.addEventListener('click', e => {
-            const currentSlide = document.querySelector(`.custom-slider-item${this.itemIndex+1}`);
-            currentSlide.style.opacity = 0;
-            this.itemIndex--;
-            if(this.itemIndex < 0){
-                this.itemIndex = this._items.length - 1;
-            }
-            const nextSlide = document.querySelector(`.custom-slider-item${this.itemIndex+1}`);
-            nextSlide.style.opacity = 1;
-        })
+        if ( event.type === 'fade' ){
+            leftBtn.addEventListener('click', e => {
+                const currentSlide = document.querySelector(`.custom-slider-item${this.itemIndex+1}`);
+                currentSlide.style.opacity = 0;
+                this.itemIndex--;
+                if(this.itemIndex < 0){
+                    this.itemIndex = this._items.length - 1;
+                }
+                const nextSlide = document.querySelector(`.custom-slider-item${this.itemIndex+1}`);
+                nextSlide.style.opacity = 1;
+            })
+        }
 
         return leftBtn;
     }
 
-    createRightButton(root){
+    createRightButton(root, event){
         const rightBtn = document.createElement(`button`);
         rightBtn.id = `slider-right-btn`;
         rightBtn.style.position = `relative`;
@@ -52,17 +55,19 @@ export class Slider {
         rightBtn.style.justifyContent = 'center';
         rightBtn.style.alignItems = 'center';
         rightBtn.innerText = '>';
-
-        rightBtn.addEventListener('click', e => {
-            const currentSlide = document.querySelector(`.custom-slider-item${this.itemIndex+1}`);
-            currentSlide.style.opacity = 0;
-            this.itemIndex++;
-            if(this.itemIndex > this._items.length - 1){
-                this.itemIndex = 0;
-            }
-            const nextSlide = document.querySelector(`.custom-slider-item${this.itemIndex+1}`);
-            nextSlide.style.opacity = 1;
-        })
+        
+        if ( event.type === 'fade' ) {
+            rightBtn.addEventListener('click', e => {
+                const currentSlide = document.querySelector(`.custom-slider-item${this.itemIndex+1}`);
+                currentSlide.style.opacity = 0;
+                this.itemIndex++;
+                if(this.itemIndex > this._items.length - 1){
+                    this.itemIndex = 0;
+                }
+                const nextSlide = document.querySelector(`.custom-slider-item${this.itemIndex+1}`);
+                nextSlide.style.opacity = 1;
+            })
+        }
 
         return rightBtn;
     }
@@ -87,32 +92,35 @@ export class Slider {
         itemsWrapper.style.display = 'flex';
         itemsWrapper.style.overflow = 'hidden';
 
-        this._items.forEach((item, index) => {
-            const sliderItem = document.createElement(`div`);
-            sliderItem.className = `custom-slider-item${item.id}`;
-            sliderItem.style.height = height;
-            sliderItem.style.zIndex = zIndex + 10;
-            sliderItem.style.position = 'absolute';
-            sliderItem.style.transition = 'opacity 0.5s';
-
-            if(index !== this.itemIndex){
-                sliderItem.style.opacity = 0;
-            }else{
-                sliderItem.style.opacity = 1;
-            }
-
-            const sliderImage = document.createElement(`img`);
-            sliderImage.src = `${item.img}`;
-            sliderImage.alt = `${item.title}`;
-
-            sliderItem.appendChild(sliderImage);
-            itemsWrapper.appendChild(sliderItem);
-        })  
+        if (this._config.type === 'fade'){
+            this._items.forEach((item, index) => {
+                const sliderItem = document.createElement(`div`);
+                sliderItem.className = `custom-slider-item${item.id}`;
+                sliderItem.style.height = height;
+                sliderItem.style.zIndex = zIndex + 10;
+                sliderItem.style.position = 'absolute';
+                sliderItem.style.transition = `all ${this._config.time}s` ;
+    
+                if(index !== this.itemIndex){
+                    sliderItem.style.opacity = 0;
+                }else{
+                    sliderItem.style.opacity = 1;
+                }
+    
+                const sliderImage = document.createElement(`img`);
+                sliderImage.src = `${item.img}`;
+                sliderImage.alt = `${item.title}`;
+    
+                sliderItem.appendChild(sliderImage);
+                itemsWrapper.appendChild(sliderItem);
+            })  
+        }
+        
         sliderContainer.appendChild(itemsWrapper)
         root.appendChild(sliderContainer);
 
-        const leftBtn = this.createLeftButton(sliderContainer);
-        const rightBtn = this.createRightButton(sliderContainer);
+        const leftBtn = this.createLeftButton(sliderContainer, this._config);
+        const rightBtn = this.createRightButton(sliderContainer, this._config);
         
         sliderContainer.appendChild(leftBtn);
         sliderContainer.appendChild(rightBtn);

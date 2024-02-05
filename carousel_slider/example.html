@@ -18,8 +18,13 @@
             {id: 3, title: 'test3', img: `image path3.png`, url: 'linked url3'},
             {id: 4, title: 'test4', img: `image path4.png`, url: 'linked url4'}
         ]
+
+        const fade = {
+            type: 'fade',
+            time: 1
+        }
         
-        const slider = new Slider('custom-slider', testdata);
+        const slider = new Slider('custom-slider', testdata, fade);
         slider.init();
     </script>
 </head>
