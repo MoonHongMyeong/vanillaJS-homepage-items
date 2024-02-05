@@ -16,8 +16,8 @@ export class Slider {
         leftBtn.style.border = `none`;
         leftBtn.style.backgroundColor = `inherit`;
         leftBtn.style.zIndex = root.style.zIndex ? root.style.zIndex + 20 : 20;
-        leftBtn.style.height = '100%';
-        leftBtn.style.left = `${root.getBoundingClientRect().width/10}px`;
+        leftBtn.style.height = `${root.getBoundingClientRect().height}px`;
+        leftBtn.style.left = `${root.getBoundingClientRect().width/10 - root.getBoundingClientRect().width}px`;
 
         leftBtn.style.display = 'flex';
         leftBtn.style.justifyContent = 'center';
@@ -45,8 +45,8 @@ export class Slider {
         rightBtn.style.border = `none`;
         rightBtn.style.backgroundColor = `inherit`;
         rightBtn.style.zIndex = root.style.zIndex ? root.style.zIndex + 20 : 20;
-        rightBtn.style.height = '100%';
-        rightBtn.style.left = `${root.getBoundingClientRect().width - (root.getBoundingClientRect().width* 2/10)}px`;
+        rightBtn.style.height = `${root.getBoundingClientRect().height}px`;
+        rightBtn.style.left = `${-(root.getBoundingClientRect().width* 1/10)}px`;
 
         rightBtn.style.display = 'flex';
         rightBtn.style.justifyContent = 'center';
@@ -80,6 +80,13 @@ export class Slider {
         sliderContainer.style.height = height;
         sliderContainer.style.display = 'flex';
 
+        const itemsWrapper = document.createElement(`div`);
+        itemsWrapper.className = `silder-items-wrpper`;
+        itemsWrapper.style.width = width;
+        itemsWrapper.style.height = height;
+        itemsWrapper.style.display = 'flex';
+        itemsWrapper.style.overflow = 'hidden';
+
         this._items.forEach((item, index) => {
             const sliderItem = document.createElement(`div`);
             sliderItem.className = `custom-slider-item${item.id}`;
@@ -99,8 +106,9 @@ export class Slider {
             sliderImage.alt = `${item.title}`;
 
             sliderItem.appendChild(sliderImage);
-            sliderContainer.appendChild(sliderItem);
+            itemsWrapper.appendChild(sliderItem);
         })  
+        sliderContainer.appendChild(itemsWrapper)
         root.appendChild(sliderContainer);
 
         const leftBtn = this.createLeftButton(sliderContainer);
@@ -112,7 +120,9 @@ export class Slider {
         window.addEventListener(`resize`, function(){
             sliderContainer.style.width = `${window.innerWidth}px`;
             leftBtn.style.left = `${root.getBoundingClientRect().width/10}px`;
+            leftBtn.style.height = `${root.getBoundingClientRect().height}px`;
             rightBtn.style.left = `${sliderContainer.getBoundingClientRect().width - (sliderContainer.getBoundingClientRect().width*2/10)}px`;
+            rightBtn.style.height = `${root.getBoundingClientRect().height}px`;
         })
 
         
