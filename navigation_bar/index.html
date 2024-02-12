@@ -1,0 +1,91 @@
+<head>
+    <link rel="stylesheet" href="style.css">
+    <script type="module" src="navigation.js"></script>
+    <script type="module">
+        import { Navigation } from './navigation.js'
+        const testdata = [
+            {
+                id: 1,
+                title: 'item1',
+                url: '',
+                parent: 0
+            },
+            {
+                id: 2,
+                title: 'item2',
+                url: '',
+                parent: 0
+            },
+            {
+                id: 3,
+                title: 'item1-1',
+                url: '/item1-1',
+                parent: 1
+            },
+            {
+                id: 4,
+                title: 'item1-2',
+                url: '/item1-2',
+                parent: 1
+            },
+            {
+                id: 5,
+                title: 'item3',
+                url: '',
+                parent: 0
+            },
+            {
+                id: 6,
+                title: 'item1-3',
+                url: '/item1-3',
+                parent: 1
+            },
+            {
+                id: 7,
+                title: 'item2-1',
+                url: '/item2-1',
+                parent: 2
+            },
+            {
+                id: 8,
+                title: 'item4',
+                url: '',
+                parent: 0
+            },
+            {
+                id: 9,
+                title: 'item4-1',
+                url: '/item4-1',
+                parent: 8
+            },
+            {
+                id: 10,
+                title: 'item5',
+                url: '',
+                parent: 0
+            },
+            {
+                id: 11,
+                title: 'item3-1',
+                url: '/item3-1',
+                parent: 5
+            }
+        ]
+        const wrapper = document.querySelector('.nav_menu');
+        // type all, 1on1
+        const nav = new Navigation(wrapper, testdata);
+        nav.init();
+    </script>
+</head>
+<body>
+    <nav>
+        <div class="content">
+            <div class="nav_logo">
+
+            </div>
+            <div class="nav_menu">
+                
+            </div>
+        </div>
+    </nav>    
+</body>
